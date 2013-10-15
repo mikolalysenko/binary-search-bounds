@@ -1,0 +1,35 @@
+{
+  "name": "binary-search-bounds",
+  "version": "0.0.0",
+  "description": "Better binary searching",
+  "main": "search-bounds.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "tape": "~2.0.0",
+    "tap": "~0.4.4"
+  },
+  "scripts": {
+    "test": "tap test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mikolalysenko/binary-search-bounds.git"
+  },
+  "keywords": [
+    "binary",
+    "search",
+    "bounds",
+    "least",
+    "lower",
+    "greatest",
+    "upper"
+  ],
+  "author": "Mikola Lysenko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mikolalysenko/binary-search-bounds/issues"
+  }
+}
