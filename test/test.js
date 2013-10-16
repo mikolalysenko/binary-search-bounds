@@ -3,14 +3,14 @@
 var tape = require("tape")
 var bounds = require("../search-bounds.js")
 
-tape("leastLower", function(t) {
+tape("greaterThanEquals", function(t) {
 
-  var lb = bounds.leastLower
+  var lb = bounds.ge
 
   function checkArray(arr, values) {
     for(var i=0; i<values.length; ++i) {
       for(var j=0; j<arr.length; ++j) {
-        if(values[i] <= arr[j]) {
+        if(arr[j] >= values[i]) {
           break
         }
       }
@@ -52,9 +52,9 @@ tape("leastLower", function(t) {
   t.end()
 })
 
-tape("leastUpper", function(t) {
+tape("lessThan", function(t) {
 
-  var lu = bounds.leastUpper
+  var lu = bounds.lt
 
   function checkArray(arr, values) {
     for(var i=0; i<values.length; ++i) {
@@ -71,5 +71,3 @@ tape("leastUpper", function(t) {
 
   t.end()
 })
-
-

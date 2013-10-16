@@ -35,8 +35,8 @@ return dispatch"
 }
 
 module.exports = {
-  leastLower: compileBoundsSearch(">=", false),
-  greatestLower: compileBoundsSearch(">", false),
-  leastUpper: compileBoundsSearch("<", true),
-  greatestUpper:  compileBoundsSearch("<=", true)
+  ge: compileBoundsSearch(">=", false),
+  gt: compileBoundsSearch(">", false),
+  lt: compileBoundsSearch("<", true),
+  le:  compileBoundsSearch("<=", true)
 }
