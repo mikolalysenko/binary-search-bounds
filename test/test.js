@@ -2,6 +2,7 @@
 
 var tape = require("tape")
 var bounds = require("../search-bounds.js")
+var ndarray = require("ndarray")
 
 tape("greaterThanEquals", function(t) {
 
@@ -17,7 +18,6 @@ tape("greaterThanEquals", function(t) {
       t.equals(lb(arr, values[i]), j)
     }
   }
-
   
   checkArray([0,1,1,1,2], [-1, 0, 1, 2, 0.5, 1.5, 5])
 

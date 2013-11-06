@@ -1,6 +1,6 @@
 binary-search-bounds
 ====================
-Binary search on arrays.
+Binary search on arrays.  Also works if the inputs are 1D [ndarrays](https://github.com/mikolalysenko/ndarray).
 
 ## API
 
@@ -23,6 +23,7 @@ Returns the index of the first item in the array `>=` y
 
 ### Notes
 
+* `array` can be either an array or an [`ndarray`](https://github.com/mikolalysenko/ndarray)
 * `cmp` is a comparison function, just like what you would pass to `Array.sort()`
 * `y` will always be the second argument passed to `cmp`, so you can ignore it if you are just binary searching on a predicate
 * Assumes the array is sorted as would be the case if you called `Array.sort(cmp)` on it
