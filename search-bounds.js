@@ -1,4 +1,4 @@
-"use struct"
+"use strict"
 
 function compileSearch(predicate, reversed, extraArgs) {
   var args = ["a", "l", "h"].concat(extraArgs)
