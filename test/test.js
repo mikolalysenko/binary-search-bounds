@@ -71,3 +71,66 @@ tape("lessThan", function(t) {
 
   t.end()
 })
+
+
+tape("greaterThan", function(t) {
+
+  var lb = bounds.gt
+
+  function checkArray(arr, values) {
+    for(var i=0; i<values.length; ++i) {
+      for(var j=0; j<arr.length; ++j) {
+        if(arr[j] > values[i]) {
+          break
+        }
+      }
+      t.equals(lb(arr, values[i]), j)
+    }
+  }
+
+  checkArray([0,1,1,1,2], [-1, 0, 1, 2, 0.5, 1.5, 5])
+
+  t.end()
+})
+
+
+tape("lessThanEquals", function(t) {
+
+  var lu = bounds.le
+
+  function checkArray(arr, values) {
+    for(var i=0; i<values.length; ++i) {
+      for(var j=arr.length-1; j>=0; --j) {
+        if(values[i] >= arr[j]) {
+          break
+        }
+      }
+      t.equals(lu(arr, values[i]), j, i + " - indexOf(" + values[i] + ")="+j )
+    }
+  }
+
+  checkArray([0,1,1,1,2], [-1, 0, 1, 2, 0.5, 1.5, 5])
+
+  t.end()
+})
+
+
+
+tape("equals", function(t) {
+
+  var lu = bounds.eq
+
+  function checkArray(arr, values) {
+    for(var i=0; i<values.length; ++i) {
+      if(arr.indexOf(values[i]) < 0) {
+        t.equals(lu(arr, values[i]), -1)
+      } else {
+        t.equals(arr[lu(arr, values[i])], values[i])
+      }
+    }
+  }
+
+  checkArray([0,1,1,1,2], [-1, 0, 1, 2, 0.5, 1.5, 5])
+
+  t.end()
+})

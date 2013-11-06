@@ -1,27 +1,40 @@
 "use strict"
 
-function compileSearch(funcName, predicate, reversed, extraArgs, useNdarray) {
+function compileSearch(funcName, predicate, reversed, extraArgs, useNdarray, earlyOut) {
   var code = [
-    "function ", funcName, "(a,l,h,", extraArgs.join(","),  "){\
-var i=", (reversed ? "l-1" : "h+1"),
+    "function ", funcName, "(a,l,h,", extraArgs.join(","),  "){",
+earlyOut ? "" : "var i=", (reversed ? "l-1" : "h+1"),
 ";while(l<=h){\
-var m=(l+h)>>>1,x=a", useNdarray ? ".get(m)" : "[m]",
-";if(", predicate, "){i=m;" ]
+var m=(l+h)>>>1,x=a", useNdarray ? ".get(m)" : "[m]"]
+  if(earlyOut) {
+    if(predicate.indexOf("c") < 0) {
+      code.push(";if(x===y){return m}else if(x<=y){")
+    } else {
+      code.push(";var p=c(x,y);if(p===0){return m}else if(p<=0){")
+    }
+  } else {
+    code.push(";if(", predicate, "){i=m;")
+  }
   if(reversed) {
     code.push("l=m+1}else{h=m-1}")
   } else {
     code.push("h=m-1}else{l=m+1}")
   }
-  code.push("}return i};")
+  code.push("}")
+  if(earlyOut) {
+    code.push("return -1};")
+  } else {
+    code.push("return i};")
+  }
   return code.join("")
 }
 
-function compileBoundsSearch(predicate, reversed, suffix) {
+function compileBoundsSearch(predicate, reversed, suffix, earlyOut) {
   var code = [
-  compileSearch("A", "x" + predicate + "y", reversed, ["y"]),
-  compileSearch("B", "x" + predicate + "y", reversed, ["y"], true),
-  compileSearch("P", "c(x,y)" + predicate + "0", reversed, ["y", "c"]),
-  compileSearch("Q", "c(x,y)" + predicate + "0", reversed, ["y", "c"], true),
+  compileSearch("A", "x" + predicate + "y", reversed, ["y"], false, earlyOut),
+  compileSearch("B", "x" + predicate + "y", reversed, ["y"], true, earlyOut),
+  compileSearch("P", "c(x,y)" + predicate + "0", reversed, ["y", "c"], false, earlyOut),
+  compileSearch("Q", "c(x,y)" + predicate + "0", reversed, ["y", "c"], true, earlyOut),
 "function dispatchBsearch", suffix, "(a,y,c,l,h){\
 if(a.shape){\
 if(typeof(c)==='function'){\
@@ -44,5 +57,6 @@ module.exports = {
   ge: compileBoundsSearch(">=", false, "GE"),
   gt: compileBoundsSearch(">", false, "GT"),
   lt: compileBoundsSearch("<", true, "LT"),
-  le:  compileBoundsSearch("<=", true, "LE")
+  le: compileBoundsSearch("<=", true, "LE"),
+  eq: compileBoundsSearch("-", true, "EQ", true)
 }

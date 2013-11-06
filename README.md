@@ -20,6 +20,8 @@ Returns the index of the first item in the array `>` y
 ### `bounds.ge(array, y[, cmp, lo, hi])`
 Returns the index of the first item in the array `>=` y
 
+### `bounds.eq(array, y[, cmp, lo, hi])`
+Returns an index of some item in the array `== y`.  `-1` if not found.
 
 ### Notes
 
@@ -32,6 +34,7 @@ Returns the index of the first item in the array `>=` y
 * `hi` gives an upper bound on the array index to search
 * `bounds.le` and `bounds.lt` will return `lo - 1` if no element is found satisfying the predicate
 * `bounds.ge` and `bounds.gt` will return `hi + 1` if no element is found satisfying the predicate
+* `bounds.eq` will return the first found item with the given index.  It can be a little faster than the other methods if you just want to find some random match.
 
 ## Credits
 (c) 2013 Mikola Lysenko. MIT License
