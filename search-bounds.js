@@ -30,7 +30,7 @@ var m=(l+h)>>>1,x=a", useNdarray ? ".get(m)" : "[m]"]
 }
 
 function compileBoundsSearch(predicate, reversed, suffix, earlyOut) {
-  var code = [
+  var result = new Function([
   compileSearch("A", "x" + predicate + "y", reversed, ["y"], false, earlyOut),
   compileSearch("B", "x" + predicate + "y", reversed, ["y"], true, earlyOut),
   compileSearch("P", "c(x,y)" + predicate + "0", reversed, ["y", "c"], false, earlyOut),
@@ -47,9 +47,7 @@ return P(a,(l===undefined)?0:l|0,(h===undefined)?a.length-1:h|0,y,c)\
 }else{\
 return A(a,(c===undefined)?0:c|0,(l===undefined)?a.length-1:l|0,y)\
 }}}\
-return dispatchBsearch", suffix].join("")
-  console.log(code)
-  var result = new Function(code)
+return dispatchBsearch", suffix].join(""))
   return result()
 }
 
