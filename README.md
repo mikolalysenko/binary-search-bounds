@@ -21,7 +21,7 @@ Returns the index of the first item in the array `>` y
 Returns the index of the first item in the array `>=` y
 
 ### `bounds.eq(array, y[, cmp, lo, hi])`
-Returns an index of some item in the array `== y`.  `-1` if not found.
+Returns an index of some item in the array `== y`.
 
 ### Notes
 
@@ -33,8 +33,9 @@ Returns an index of some item in the array `== y`.  `-1` if not found.
 * `lo` gives a lower bound on the array index to search.  If not specified defaults to 0.
 * `hi` gives an upper bound on the array index to search.  If not specified defaults to `array.length-1`
 * Bouth bounds are inclusive.
-* `bounds.le` and `bounds.lt` will return `lo - 1` if no element is found satisfying the predicate
-* `bounds.ge` and `bounds.gt` will return `hi + 1` if no element is found satisfying the predicate
+* `bounds.le` and `bounds.lt` will return `lo - 1` if no element is found that `==y`
+* `bounds.ge` and `bounds.gt` will return `hi + 1` if no element is found that `==y`
+* `bounds.eq` will return `-1` if no element matching `y` is found.
 * `bounds.eq` will return the first found item with the given index.  It can be a little faster than the other methods if you just want to find some random match and do not care where it is.
 
 ## Credits
