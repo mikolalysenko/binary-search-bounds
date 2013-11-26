@@ -25,9 +25,11 @@ Returns an index of some item in the array `== y`.
 
 ### Notes
 
+The following comments apply to the above methods:
+
 * `array` can be either an array or an [`ndarray`](https://github.com/mikolalysenko/ndarray)
 * `cmp` is a comparison function, just like what you would pass to `Array.sort()`
-* `y` will always be the second argument passed to `cmp`, so you can ignore it if you are just binary searching on a predicate
+* `y` will always be the second argument passed to `cmp`, so you can ignore it if you are just binary searching on a predicate.
 * Assumes the array is sorted as would be the case if you called `Array.sort(cmp)` on it
 * If no comparison is passed, assume array is sorted in ascending order (note this is different than the semantics of Array.sort() which converts all entries to strings if you don't pass an argument)
 * `lo` gives a lower bound on the array index to search.  If not specified defaults to 0.
