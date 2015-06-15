@@ -8,12 +8,10 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "tape": "~2.0.0",
-    "tap": "~0.4.4",
-    "ndarray": "~1.0.8"
+    "tape": "^4.0.0"
   },
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tape test/*.js"
   },
   "repository": {
     "type": "git",
