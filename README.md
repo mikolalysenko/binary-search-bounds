@@ -1,6 +1,6 @@
 binary-search-bounds
 ====================
-Binary search on arrays.  Also works if the inputs are 1D [ndarrays](https://github.com/mikolalysenko/ndarray).
+Binary search on arrays for ranges.
 
 ## Install
 ```
