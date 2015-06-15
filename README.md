@@ -4,7 +4,7 @@ Binary search on arrays for predecessor, successor and range queries.
 
 ### Rationale
 
-The main reason for using a [binary search](https://en.wikipedia.org/wiki/Binary_search_algorithm) or ordered set data structure instead of a hash map is to support fast predecessor/successor queries.  Besides this library, I am aware of no other modules on npm which implement these semantics.  As a result, if you
+The main reason for using a [binary search](https://en.wikipedia.org/wiki/Binary_search_algorithm) or ordered set data structure instead of a hash map is to support fast predecessor/successor queries.  Besides this library, I am aware of no other modules on npm which implement these semantics (making them effectively useless)!!!  `binary-search-bounds` corrects this sad state of affairs.
 
 ## Example
 
@@ -58,19 +58,19 @@ var bounds = require('binary-search-bounds')
 ```
 
 #### `bounds.lt(array, y[, cmp, lo, hi])`
-Returns the index of the last item in the array `<` y
+Returns the index of the last item in the array `<` y.  This is the same as a predecessor query.
 
 #### `bounds.le(array, y[, cmp, lo, hi])`
-Returns the index of the last item in the array `<=` y
+Returns the index of the last item in the array `<=` y.  This is a predecessor query which also returns the item if present.
 
 #### `bounds.gt(array, y[, cmp, lo, hi])`
-Returns the index of the first item in the array `>` y
+Returns the index of the first item in the array `>` y.  This is the same as a successor query.
 
 #### `bounds.ge(array, y[, cmp, lo, hi])`
-Returns the index of the first item in the array `>=` y
+Returns the index of the first item in the array `>=` y.  This is a successor query which also returns the item if present.
 
 #### `bounds.eq(array, y[, cmp, lo, hi])`
-Returns an index of some item in the array `== y`.
+Returns an index of some item in the array `== y` or `-1` if the item is not presetn.
 
 ### Notes
 
