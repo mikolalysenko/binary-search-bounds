@@ -1,31 +1,75 @@
 binary-search-bounds
 ====================
-Binary search on arrays for ranges.
+Binary search on arrays for predecessor, successor and range queries.
+
+### Rationale
+
+The main reason for using a [binary search](https://en.wikipedia.org/wiki/Binary_search_algorithm) or ordered set data structure instead of a hash map is to support fast predecessor/successor queries.  Besides this library, I am aware of no other modules on npm which implement these semantics.  As a result, if you
+
+## Example
+
+```javascript
+//Import module
+var bounds = require('binary-search-bounds')
+
+//Create an array
+var array = [1, 2, 3, 3, 3, 5, 6, 10, 11, 13, 50, 1000, 2200]
+
+//Print all elements in array contained in the interval [3, 50)
+console.log(
+  array.slice(
+    bounds.ge(array, 3),
+    bounds.lt(array, 50)))
+
+//Test if array contains the element 4
+console.log('indexOf(6)=', bounds.eq(array, 6))
+console.log('indexOf(4)=', bounds.eq(array, 4))
+
+//Find the element immediately after 13
+console.log('successor of 13 = ', array[bounds.gt(array, 13)])
+
+//Find the element in the array before 4
+console.log('predecessor of 4 = ', array[bounds.lt(array, 4)])
+```
+
+#### Output:
+
+```
+[ 3, 3, 3, 5, 6, 10, 11 ]
+indexOf(6)= 6
+indexOf(4)= -1
+successor of 13 =  50
+predecessor of 4 =  3
+```
 
 ## Install
+Using [npm](https://docs.npmjs.com/), you can install the library as follows:
+
 ```
 npm install binary-search-bounds
 ```
 
+This module works great with [browserify](http://browserify.org/) if you want to use it in front end projects.
+
 ## API
 
 ```javascript
-var bounds = require("binary-search-bounds")
+var bounds = require('binary-search-bounds')
 ```
 
-### `bounds.lt(array, y[, cmp, lo, hi])`
+#### `bounds.lt(array, y[, cmp, lo, hi])`
 Returns the index of the last item in the array `<` y
 
-### `bounds.le(array, y[, cmp, lo, hi])`
+#### `bounds.le(array, y[, cmp, lo, hi])`
 Returns the index of the last item in the array `<=` y
 
-### `bounds.gt(array, y[, cmp, lo, hi])`
+#### `bounds.gt(array, y[, cmp, lo, hi])`
 Returns the index of the first item in the array `>` y
 
-### `bounds.ge(array, y[, cmp, lo, hi])`
+#### `bounds.ge(array, y[, cmp, lo, hi])`
 Returns the index of the first item in the array `>=` y
 
-### `bounds.eq(array, y[, cmp, lo, hi])`
+#### `bounds.eq(array, y[, cmp, lo, hi])`
 Returns an index of some item in the array `== y`.
 
 ### Notes
