@@ -89,4 +89,4 @@ The following comments apply to the above methods:
 * `bounds.eq` will return the first found item with the given index.  It can be a little faster than the other methods if you just want to find some random match and do not care where it is.
 
 ## Credits
-(c) 2013 Mikola Lysenko. MIT License
+(c) 2013-2015 Mikola Lysenko. MIT License
