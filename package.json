@@ -8,6 +8,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "guarded-array": "^1.0.0",
     "tape": "^4.0.0"
   },
   "scripts": {

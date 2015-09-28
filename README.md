@@ -82,6 +82,7 @@ The following comments apply to the above methods:
 * If no comparison is passed, assume array is sorted in ascending order (note this is different than the semantics of Array.sort() which converts all entries to strings if you don't pass an argument)
 * `lo` gives a lower bound on the array index to search.  If not specified defaults to 0.
 * `hi` gives an upper bound on the array index to search.  If not specified defaults to `array.length-1`
+* The range `[lo,hi]` is inclusive (closed)
 * Bouth bounds are inclusive.
 * `bounds.le` and `bounds.lt` will return `lo - 1` if no element is found that `==y`
 * `bounds.ge` and `bounds.gt` will return `hi + 1` if no element is found that `==y`

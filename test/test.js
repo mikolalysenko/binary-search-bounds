@@ -2,19 +2,25 @@
 
 var tape = require("tape")
 var bounds = require("../search-bounds.js")
+var guard = require("guarded-array")
 
 tape("greaterThanEquals", function(t) {
 
   var lb = bounds.ge
 
   function checkArray(arr, values) {
-    for(var i=0; i<values.length; ++i) {
-      for(var j=0; j<arr.length; ++j) {
-        if(arr[j] >= values[i]) {
-          break
+    var garr = guard(arr)
+    for(var l=0; l<arr.length; ++l) {
+      for(var h=l; h<arr.length; ++h) {
+        for(var i=0; i<values.length; ++i) {
+          for(var j=l; j<=h; ++j) {
+            if(arr[j] >= values[i]) {
+              break
+            }
+          }
+          t.equals(lb(garr, values[i], l, h), j, 'search in ['+l+','+h+']')
         }
       }
-      t.equals(lb(arr, values[i]), j)
     }
   }
 
@@ -56,13 +62,19 @@ tape("lessThan", function(t) {
   var lu = bounds.lt
 
   function checkArray(arr, values) {
-    for(var i=0; i<values.length; ++i) {
-      for(var j=arr.length-1; j>=0; --j) {
-        if(values[i] > arr[j]) {
-          break
+    var garr = guard(arr)
+    for(var l=0; l<arr.length; ++l) {
+      for(var h=l; h<arr.length; ++h) {
+        for(var i=0; i<values.length; ++i) {
+          for(var j=h; j>=l; --j) {
+            if(values[i] > arr[j]) {
+              break
+            }
+          }
+          t.equals(lu(garr, values[i], l, h), j,
+            i + " - indexOf(" + values[i] + ")="+j + " [" + l + "," + h + "]")
         }
       }
-      t.equals(lu(arr, values[i]), j, i + " - indexOf(" + values[i] + ")="+j )
     }
   }
 
@@ -77,13 +89,18 @@ tape("greaterThan", function(t) {
   var lb = bounds.gt
 
   function checkArray(arr, values) {
-    for(var i=0; i<values.length; ++i) {
-      for(var j=0; j<arr.length; ++j) {
-        if(arr[j] > values[i]) {
-          break
+    var garr = guard(arr)
+    for(var l=0; l<arr.length; ++l) {
+      for(var h=l; h<arr.length; ++h) {
+        for(var i=0; i<values.length; ++i) {
+          for(var j=l; j<=h; ++j) {
+            if(arr[j] > values[i]) {
+              break
+            }
+          }
+          t.equals(lb(garr, values[i], l, h), j)
         }
       }
-      t.equals(lb(arr, values[i]), j)
     }
   }
 
@@ -98,13 +115,14 @@ tape("lessThanEquals", function(t) {
   var lu = bounds.le
 
   function checkArray(arr, values) {
+    var garr = guard(arr)
     for(var i=0; i<values.length; ++i) {
       for(var j=arr.length-1; j>=0; --j) {
         if(values[i] >= arr[j]) {
           break
         }
       }
-      t.equals(lu(arr, values[i]), j, i + " - indexOf(" + values[i] + ")="+j )
+      t.equals(lu(garr, values[i]), j, i + " - indexOf(" + values[i] + ")="+j )
     }
   }
 
@@ -120,11 +138,12 @@ tape("equals", function(t) {
   var lu = bounds.eq
 
   function checkArray(arr, values) {
+    var garr = guard(arr)
     for(var i=0; i<values.length; ++i) {
       if(arr.indexOf(values[i]) < 0) {
-        t.equals(lu(arr, values[i]), -1)
+        t.equals(lu(garr, values[i]), -1)
       } else {
-        t.equals(arr[lu(arr, values[i])], values[i])
+        t.equals(arr[lu(garr, values[i])], values[i])
       }
     }
   }
