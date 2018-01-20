@@ -1,52 +1,237 @@
 "use strict"
 
-function compileSearch(funcName, predicate, reversed, extraArgs, earlyOut) {
-  var code = [
-    "function ", funcName, "(a,l,h,", extraArgs.join(","),  "){",
-earlyOut ? "" : "var i=", (reversed ? "l-1" : "h+1"),
-";while(l<=h){\
-var m=(l+h)>>>1,x=a[m]"]
-  if(earlyOut) {
-    if(predicate.indexOf("c") < 0) {
-      code.push(";if(x===y){return m}else if(x<=y){")
+function _geA(a, l, h, y) {
+  var i = h + 1;
+  while (l <= h) {
+    var m = l + h >>> 1, x = a[m];
+    if (x >= y) {
+      i = m;
+      h = m - 1;
     } else {
-      code.push(";var p=c(x,y);if(p===0){return m}else if(p<=0){")
+      l = m + 1;
     }
-  } else {
-    code.push(";if(", predicate, "){i=m;")
   }
-  if(reversed) {
-    code.push("l=m+1}else{h=m-1}")
-  } else {
-    code.push("h=m-1}else{l=m+1}")
+  return i;
+}
+function _geP(a, l, h, y, c) {
+  var i = h + 1;
+  while (l <= h) {
+    var m = l + h >>> 1, x = a[m];
+    if (c(x, y) >= 0) {
+      i = m;
+      h = m - 1;
+    } else {
+      l = m + 1;
+    }
   }
-  code.push("}")
-  if(earlyOut) {
-    code.push("return -1};")
+  return i;
+}
+function ge(a, y, c, l, h) {
+  if (typeof c === "function") {
+    return _geP(
+      a,
+      l === void 0 ? 0 : l | 0,
+      h === void 0 ? a.length - 1 : h | 0,
+      y,
+      c
+    );
   } else {
-    code.push("return i};")
+    return _geA(
+      a,
+      c === void 0 ? 0 : c | 0,
+      l === void 0 ? a.length - 1 : l | 0,
+      y
+    );
   }
-  return code.join("")
 }
 
-function compileBoundsSearch(predicate, reversed, suffix, earlyOut) {
-  var result = new Function([
-  compileSearch("A", "x" + predicate + "y", reversed, ["y"], earlyOut),
-  compileSearch("P", "c(x,y)" + predicate + "0", reversed, ["y", "c"], earlyOut),
-"function dispatchBsearch", suffix, "(a,y,c,l,h){\
-if(typeof(c)==='function'){\
-return P(a,(l===void 0)?0:l|0,(h===void 0)?a.length-1:h|0,y,c)\
-}else{\
-return A(a,(c===void 0)?0:c|0,(l===void 0)?a.length-1:l|0,y)\
-}}\
-return dispatchBsearch", suffix].join(""))
-  return result()
+function _gtA(a, l, h, y) {
+  var i = h + 1;
+  while (l <= h) {
+    var m = l + h >>> 1, x = a[m];
+    if (x > y) {
+      i = m;
+      h = m - 1;
+    } else {
+      l = m + 1;
+    }
+  }
+  return i;
+}
+function _gtP(a, l, h, y, c) {
+  var i = h + 1;
+  while (l <= h) {
+    var m = l + h >>> 1, x = a[m];
+    if (c(x, y) > 0) {
+      i = m;
+      h = m - 1;
+    } else {
+      l = m + 1;
+    }
+  }
+  return i;
+}
+function gt(a, y, c, l, h) {
+  if (typeof c === "function") {
+    return _gtP(
+      a,
+      l === void 0 ? 0 : l | 0,
+      h === void 0 ? a.length - 1 : h | 0,
+      y,
+      c
+    );
+  } else {
+    return _gtA(
+      a,
+      c === void 0 ? 0 : c | 0,
+      l === void 0 ? a.length - 1 : l | 0,
+      y
+    );
+  }
+}
+
+function _ltA(a, l, h, y) {
+  var i = l - 1;
+  while (l <= h) {
+    var m = l + h >>> 1, x = a[m];
+    if (x < y) {
+      i = m;
+      l = m + 1;
+    } else {
+      h = m - 1;
+    }
+  }
+  return i;
+}
+function _ltP(a, l, h, y, c) {
+  var i = l - 1;
+  while (l <= h) {
+    var m = l + h >>> 1, x = a[m];
+    if (c(x, y) < 0) {
+      i = m;
+      l = m + 1;
+    } else {
+      h = m - 1;
+    }
+  }
+  return i;
+}
+function lt(a, y, c, l, h) {
+  if (typeof c === "function") {
+    return _ltP(
+      a,
+      l === void 0 ? 0 : l | 0,
+      h === void 0 ? a.length - 1 : h | 0,
+      y,
+      c
+    );
+  } else {
+    return _ltA(
+      a,
+      c === void 0 ? 0 : c | 0,
+      l === void 0 ? a.length - 1 : l | 0,
+      y
+    );
+  }
+}
+
+function _leA(a, l, h, y) {
+  var i = l - 1;
+  while (l <= h) {
+    var m = l + h >>> 1, x = a[m];
+    if (x <= y) {
+      i = m;
+      l = m + 1;
+    } else {
+      h = m - 1;
+    }
+  }
+  return i;
+}
+function _leP(a, l, h, y, c) {
+  var i = l - 1;
+  while (l <= h) {
+    var m = l + h >>> 1, x = a[m];
+    if (c(x, y) <= 0) {
+      i = m;
+      l = m + 1;
+    } else {
+      h = m - 1;
+    }
+  }
+  return i;
+}
+function le(a, y, c, l, h) {
+  if (typeof c === "function") {
+    return _leP(
+      a,
+      l === void 0 ? 0 : l | 0,
+      h === void 0 ? a.length - 1 : h | 0,
+      y,
+      c
+    );
+  } else {
+    return _leA(
+      a,
+      c === void 0 ? 0 : c | 0,
+      l === void 0 ? a.length - 1 : l | 0,
+      y
+    );
+  }
+}
+
+function _eqA(a, l, h, y) {
+  l - 1;
+  while (l <= h) {
+    var m = l + h >>> 1, x = a[m];
+    if (x === y) {
+      return m;
+    } else if (x <= y) {
+      l = m + 1;
+    } else {
+      h = m - 1;
+    }
+  }
+  return -1;
+}
+function _eqP(a, l, h, y, c) {
+  l - 1;
+  while (l <= h) {
+    var m = l + h >>> 1, x = a[m];
+    var p = c(x, y);
+    if (p === 0) {
+      return m;
+    } else if (p <= 0) {
+      l = m + 1;
+    } else {
+      h = m - 1;
+    }
+  }
+  return -1;
+}
+function eq(a, y, c, l, h) {
+  if (typeof c === "function") {
+    return _eqP(
+      a,
+      l === void 0 ? 0 : l | 0,
+      h === void 0 ? a.length - 1 : h | 0,
+      y,
+      c
+    );
+  } else {
+    return _eqA(
+      a,
+      c === void 0 ? 0 : c | 0,
+      l === void 0 ? a.length - 1 : l | 0,
+      y
+    );
+  }
 }
 
 module.exports = {
-  ge: compileBoundsSearch(">=", false, "GE"),
-  gt: compileBoundsSearch(">", false, "GT"),
-  lt: compileBoundsSearch("<", true, "LT"),
-  le: compileBoundsSearch("<=", true, "LE"),
-  eq: compileBoundsSearch("-", true, "EQ", true)
-}
+  ge: ge,
+  gt: gt,
+  lt: lt,
+  le: le,
+  eq: eq
+};
