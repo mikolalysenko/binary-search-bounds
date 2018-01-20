@@ -30,6 +30,25 @@ console.log('successor of 13 = ', array[bounds.gt(array, 13)])
 
 //Find the element in the array before 4
 console.log('predecessor of 4 = ', array[bounds.lt(array, 4)])
+
+//Create an array of objects
+var creatures = [
+  { legs: 8, name: 'spider' },
+  { legs: 4, name: 'mouse' },
+  { legs: 4, name: 'cat' },
+  { legs: 2, name: 'Ben Franklin' },
+  { legs: 4, name: 'table', isCreature: false },
+  { legs: 100, name: 'centipede' },
+  { legs: 4, name: 'dog' },
+  { legs: 6, name: 'ant' }
+]
+
+//Sort the array by number of legs
+function byLegs(a,b) { return a.legs - b.legs }
+creatures.sort(byLegs)
+
+//Find the next creature with more than 4 legs
+console.log('What has more than 4 legs? Answer: ', creatures[bounds.gt(creatures, {legs:4}, byLegs)])
 ```
 
 #### Output:
@@ -38,8 +57,9 @@ console.log('predecessor of 4 = ', array[bounds.lt(array, 4)])
 [ 3, 3, 3, 5, 6, 10, 11 ]
 indexOf(6)= 6
 indexOf(4)= -1
-successor of 13 =  50
-predecessor of 4 =  3
+successor of 13 = 50
+predecessor of 4 = 3
+What has more than 4 legs? Answer: { legs: 6, name: 'ant' }
 ```
 
 ## Install
@@ -70,7 +90,7 @@ Returns the index of the first item in the array `>` y.  This is the same as a s
 Returns the index of the first item in the array `>=` y.  This is a successor query which also returns the item if present.
 
 #### `bounds.eq(array, y[, cmp, lo, hi])`
-Returns an index of some item in the array `== y` or `-1` if the item is not presetn.
+Returns an index of some item in the array `== y` or `-1` if the item is not present.
 
 ### Notes
 
@@ -83,7 +103,6 @@ The following comments apply to the above methods:
 * `lo` gives a lower bound on the array index to search.  If not specified defaults to 0.
 * `hi` gives an upper bound on the array index to search.  If not specified defaults to `array.length-1`
 * The range `[lo,hi]` is inclusive (closed)
-* Bouth bounds are inclusive.
 * `bounds.le` and `bounds.lt` will return `lo - 1` if no element is found that `==y`
 * `bounds.ge` and `bounds.gt` will return `hi + 1` if no element is found that `==y`
 * `bounds.eq` will return `-1` if no element matching `y` is found.
