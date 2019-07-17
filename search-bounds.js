@@ -21,7 +21,7 @@ function compileSearch(funcName, predicate, reversed, extraArgs, earlyOut) {
   }
   code.push("}")
   if(earlyOut) {
-    code.push("return -1};")
+    code.push("return -m - 1};")
   } else {
     code.push("return i};")
   }
