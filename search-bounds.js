@@ -3,14 +3,6 @@
 // (a, y, c, l, h) = (array, y[, cmp, lo, hi])
 
 function ge(a, y, c, l, h) {
-  if (typeof c === 'function') {
-    l = (l === undefined) ? 0 : l | 0;
-    h = (h === undefined) ? a.length - 1 : h | 0;
-  } else {
-    h = (l === undefined) ? a.length - 1 : l | 0;
-    l = (c === undefined) ? 0 : c | 0;
-    c = undefined;
-  }
   var i = h + 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
@@ -21,14 +13,6 @@ function ge(a, y, c, l, h) {
 };
 
 function gt(a, y, c, l, h) {
-  if (typeof c === 'function') {
-    l = (l === undefined) ? 0 : l | 0;
-    h = (h === undefined) ? a.length - 1 : h | 0;
-  } else {
-    h = (l === undefined) ? a.length - 1 : l | 0;
-    l = (c === undefined) ? 0 : c | 0;
-    c = undefined;
-  }
   var i = h + 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
@@ -39,14 +23,6 @@ function gt(a, y, c, l, h) {
 };
 
 function lt(a, y, c, l, h) {
-  if (typeof c === 'function') {
-    l = (l === undefined) ? 0 : l | 0;
-    h = (h === undefined) ? a.length - 1 : h | 0;
-  } else {
-    h = (l === undefined) ? a.length - 1 : l | 0;
-    l = (c === undefined) ? 0 : c | 0;
-    c = undefined;
-  }
   var i = l - 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
@@ -57,14 +33,6 @@ function lt(a, y, c, l, h) {
 };
 
 function le(a, y, c, l, h) {
-  if (typeof c === 'function') {
-    l = (l === undefined) ? 0 : l | 0;
-    h = (h === undefined) ? a.length - 1 : h | 0;
-  } else {
-    h = (l === undefined) ? a.length - 1 : l | 0;
-    l = (c === undefined) ? 0 : c | 0;
-    c = undefined;
-  }
   var i = l - 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
@@ -75,14 +43,6 @@ function le(a, y, c, l, h) {
 };
 
 function eq(a, y, c, l, h) {
-  if (typeof c === 'function') {
-    l = (l === undefined) ? 0 : l | 0;
-    h = (h === undefined) ? a.length - 1 : h | 0;
-  } else {
-    h = (l === undefined) ? a.length - 1 : l | 0;
-    l = (c === undefined) ? 0 : c | 0;
-    c = undefined;
-  }
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
     var p = (c !== undefined) ? c(x, y) : (x - y);
@@ -92,10 +52,17 @@ function eq(a, y, c, l, h) {
   return -1;
 };
 
+function norm(a, y, c, l, h, f) {
+  if (typeof c === 'function') {
+    return f(a, y, c, (l === undefined) ? 0 : l | 0, (h === undefined) ? a.length - 1 : h | 0);
+  }
+  return f(a, y, undefined, (c === undefined) ? 0 : c | 0, (l === undefined) ? a.length - 1 : l | 0);
+}
+
 module.exports = {
-  ge: ge,
-  gt: gt,
-  lt: lt,
-  le: le,
-  eq: eq
+  ge: function(a, y, c, l, h) { return norm(a, y, c, l, h, ge)},
+  gt: function(a, y, c, l, h) { return norm(a, y, c, l, h, gt)},
+  lt: function(a, y, c, l, h) { return norm(a, y, c, l, h, lt)},
+  le: function(a, y, c, l, h) { return norm(a, y, c, l, h, le)},
+  eq: function(a, y, c, l, h) { return norm(a, y, c, l, h, eq)}
 }
