@@ -1,59 +1,91 @@
 "use strict"
 
-function ge(a, l, h, y, c) {
-  l = (l === undefined) ? 0 : l | 0;
-  h = (h === undefined) ? a.length - 1 : h | 0;
+// (a, y, c, l, h) = (array, y[, cmp, lo, hi])
+
+function ge(a, y, c, l, h) {
+  if (typeof c === 'function') {
+    l = (l === undefined) ? 0 : l | 0;
+    h = (h === undefined) ? a.length - 1 : h | 0;
+  } else {
+    h = (l === undefined) ? a.length - 1 : l | 0;
+    l = (c === undefined) ? 0 : c | 0;
+    c = undefined;
+  }
   var i = h + 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
-    var p = (c!==undefined) ? c(x, y) : (x-y);
+    var p = (c !== undefined) ? c(x, y) : (x - y);
     if (p >= 0) { i = m; h = m - 1 } else { l = m + 1 }
   }
   return i;
 };
 
-function gt(a, l, h, y, c) {
-  l = (l === undefined) ? 0 : l | 0;
-  h = (h === undefined) ? a.length - 1 : h | 0;
+function gt(a, y, c, l, h) {
+  if (typeof c === 'function') {
+    l = (l === undefined) ? 0 : l | 0;
+    h = (h === undefined) ? a.length - 1 : h | 0;
+  } else {
+    h = (l === undefined) ? a.length - 1 : l | 0;
+    l = (c === undefined) ? 0 : c | 0;
+    c = undefined;
+  }
   var i = h + 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
-    var p = (c!==undefined) ? c(x, y) : (x-y);
+    var p = (c !== undefined) ? c(x, y) : (x - y);
     if (p > 0) { i = m; h = m - 1 } else { l = m + 1 }
   }
   return i;
 };
 
-function lt(a, l, h, y, c) {
-  l = (l === undefined) ? 0 : l | 0;
-  h = (h === undefined) ? a.length - 1 : h | 0;
+function lt(a, y, c, l, h) {
+  if (typeof c === 'function') {
+    l = (l === undefined) ? 0 : l | 0;
+    h = (h === undefined) ? a.length - 1 : h | 0;
+  } else {
+    h = (l === undefined) ? a.length - 1 : l | 0;
+    l = (c === undefined) ? 0 : c | 0;
+    c = undefined;
+  }
   var i = l - 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
-    var p = (c!==undefined) ? c(x, y) : (x-y);
+    var p = (c !== undefined) ? c(x, y) : (x - y);
     if (p < 0) { i = m; l = m + 1 } else { h = m - 1 }
   }
   return i;
 };
 
-function le(a, l, h, y, c) {
-  l = (l === undefined) ? 0 : l | 0;
-  h = (h === undefined) ? a.length - 1 : h | 0;
+function le(a, y, c, l, h) {
+  if (typeof c === 'function') {
+    l = (l === undefined) ? 0 : l | 0;
+    h = (h === undefined) ? a.length - 1 : h | 0;
+  } else {
+    h = (l === undefined) ? a.length - 1 : l | 0;
+    l = (c === undefined) ? 0 : c | 0;
+    c = undefined;
+  }
   var i = l - 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
-    var p = (c!==undefined) ? c(x, y) : (x-y);
+    var p = (c !== undefined) ? c(x, y) : (x - y);
     if (p <= 0) { i = m; l = m + 1 } else { h = m - 1 }
   }
   return i;
 };
 
-function eq(a, l, h, y, c) {
-  l = (l === undefined) ? 0 : l | 0;
-  h = (h === undefined) ? a.length - 1 : h | 0;
+function eq(a, y, c, l, h) {
+  if (typeof c === 'function') {
+    l = (l === undefined) ? 0 : l | 0;
+    h = (h === undefined) ? a.length - 1 : h | 0;
+  } else {
+    h = (l === undefined) ? a.length - 1 : l | 0;
+    l = (c === undefined) ? 0 : c | 0;
+    c = undefined;
+  }
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
-    var p = (c!==undefined) ? c(x, y) : (x-y);
+    var p = (c !== undefined) ? c(x, y) : (x - y);
     if (p === 0) { return m }
     if (p <= 0) { l = m + 1 } else { h = m - 1 }
   }
@@ -61,19 +93,9 @@ function eq(a, l, h, y, c) {
 };
 
 module.exports = {
-  ge: function (a, y, c, l, h) {
-    return (typeof (c) === 'function') ? ge(a, l, h, y, c) : ge(a, c, l, y)
-  },
-  gt: function (a, y, c, l, h) {
-    return (typeof (c) === 'function') ? gt(a, l, h, y, c) : gt(a, c, l, y)
-  },
-  lt: function (a, y, c, l, h) {
-    return (typeof (c) === 'function') ? lt(a, l, h, y, c) : lt(a, c, l, y)
-  },
-  le: function (a, y, c, l, h) {
-    return (typeof (c) === 'function') ? le(a, l, h, y, c) : le(a, c, l, y)
-  },
-  eq: function (a, y, c, l, h) {
-    return (typeof (c) === 'function') ? eq(a, l, h, y, c) : eq(a, c, l, y)
-  }
+  ge: ge,
+  gt: gt,
+  lt: lt,
+  le: le,
+  eq: eq
 }
