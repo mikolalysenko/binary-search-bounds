@@ -1,6 +1,8 @@
 "use strict"
 
 function Age(a, l, h, y) {
+  l = (l === void 0) ? 0 : l | 0;
+  h = (h === void 0) ? a.length - 1 : h | 0;
   var i = h + 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
@@ -9,6 +11,8 @@ function Age(a, l, h, y) {
   return i
 };
 function Pge(a, l, h, y, c) {
+  l = (l === void 0) ? 0 : l | 0;
+  h = (h === void 0) ? a.length - 1 : h | 0;
   var i = h + 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
@@ -18,6 +22,8 @@ function Pge(a, l, h, y, c) {
 };
 
 function Agt(a, l, h, y) {
+  l = (l === void 0) ? 0 : l | 0;
+  h = (h === void 0) ? a.length - 1 : h | 0;
   var i = h + 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
@@ -26,6 +32,8 @@ function Agt(a, l, h, y) {
   return i
 };
 function Pgt(a, l, h, y, c) {
+  l = (l === void 0) ? 0 : l | 0;
+  h = (h === void 0) ? a.length - 1 : h | 0;
   var i = h + 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
@@ -35,6 +43,8 @@ function Pgt(a, l, h, y, c) {
 };
 
 function Alt(a, l, h, y) {
+  l = (l === void 0) ? 0 : l | 0;
+  h = (h === void 0) ? a.length - 1 : h | 0;
   var i = l - 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
@@ -43,6 +53,8 @@ function Alt(a, l, h, y) {
   return i
 };
 function Plt(a, l, h, y, c) {
+  l = (l === void 0) ? 0 : l | 0;
+  h = (h === void 0) ? a.length - 1 : h | 0;
   var i = l - 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
@@ -52,6 +64,8 @@ function Plt(a, l, h, y, c) {
 };
 
 function Ale(a, l, h, y) {
+  l = (l === void 0) ? 0 : l | 0;
+  h = (h === void 0) ? a.length - 1 : h | 0;
   var i = l - 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
@@ -60,6 +74,8 @@ function Ale(a, l, h, y) {
   return i
 };
 function Ple(a, l, h, y, c) {
+  l = (l === void 0) ? 0 : l | 0;
+  h = (h === void 0) ? a.length - 1 : h | 0;
   var i = l - 1;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
@@ -69,6 +85,8 @@ function Ple(a, l, h, y, c) {
 };
 
 function Aeq(a, l, h, y) {
+  l = (l === void 0) ? 0 : l | 0;
+  h = (h === void 0) ? a.length - 1 : h | 0;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
     if (x === y) { return m }
@@ -78,6 +96,8 @@ function Aeq(a, l, h, y) {
 };
 
 function Peq(a, l, h, y, c) {
+  l = (l === void 0) ? 0 : l | 0;
+  h = (h === void 0) ? a.length - 1 : h | 0;
   while (l <= h) {
     var m = (l + h) >>> 1, x = a[m];
     var p = c(x, y);
@@ -87,27 +107,20 @@ function Peq(a, l, h, y, c) {
   return -1
 };
 
-function exec(a, y, c, l, h, A, P) {
-  if (typeof (c) === 'function') {
-    return P(a, (l === void 0) ? 0 : l | 0, (h === void 0) ? a.length - 1 : h | 0, y, c)
-  }
-  return A(a, (c === void 0) ? 0 : c | 0, (l === void 0) ? a.length - 1 : l | 0, y)
-}
-
 module.exports = {
   ge: function (a, y, c, l, h) {
-    return exec(a, y, c, l, h, Age, Pge)
+    return (typeof (c) === 'function') ? Pge(a, l, h, y, c) : Age(a, c, l, y)
   },
   gt: function (a, y, c, l, h) {
-    return exec(a, y, c, l, h, Agt, Pgt)
+    return (typeof (c) === 'function') ? Pgt(a, l, h, y, c) : Agt(a, c, l, y)
   },
   lt: function (a, y, c, l, h) {
-    return exec(a, y, c, l, h, Alt, Plt)
+    return (typeof (c) === 'function') ? Plt(a, l, h, y, c) : Alt(a, c, l, y)
   },
   le: function (a, y, c, l, h) {
-    return exec(a, y, c, l, h, Ale, Ple)
+    return (typeof (c) === 'function') ? Ple(a, l, h, y, c) : Ale(a, c, l, y)
   },
   eq: function (a, y, c, l, h) {
-    return exec(a, y, c, l, h, Aeq, Peq)
+    return (typeof (c) === 'function') ? Peq(a, l, h, y, c) : Aeq(a, c, l, y)
   }
 }
