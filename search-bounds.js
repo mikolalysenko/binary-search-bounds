@@ -1,95 +1,63 @@
 "use strict"
 
 function ge(a, l, h, y, c) {
-  l = (l === void 0) ? 0 : l | 0;
-  h = (h === void 0) ? a.length - 1 : h | 0;
+  l = (l === undefined) ? 0 : l | 0;
+  h = (h === undefined) ? a.length - 1 : h | 0;
   var i = h + 1;
-  if (c) {
-    while (l <= h) {
-      var m = (l + h) >>> 1, x = a[m];
-      if (c(x, y) >= 0) { i = m; h = m - 1 } else { l = m + 1 }
-    }
-  } else {
-    while (l <= h) {
-      var m = (l + h) >>> 1, x = a[m];
-      if (x >= y) { i = m; h = m - 1 } else { l = m + 1 }
-    }
+  while (l <= h) {
+    var m = (l + h) >>> 1, x = a[m];
+    var p = (c!==undefined) ? c(x, y) : (x-y);
+    if (p >= 0) { i = m; h = m - 1 } else { l = m + 1 }
   }
-  return i
+  return i;
 };
 
 function gt(a, l, h, y, c) {
-  l = (l === void 0) ? 0 : l | 0;
-  h = (h === void 0) ? a.length - 1 : h | 0;
+  l = (l === undefined) ? 0 : l | 0;
+  h = (h === undefined) ? a.length - 1 : h | 0;
   var i = h + 1;
-  if (c) {
-    while (l <= h) {
-      var m = (l + h) >>> 1, x = a[m];
-      if (c(x, y) > 0) { i = m; h = m - 1 } else { l = m + 1 }
-    }
-  } else {
-    while (l <= h) {
-      var m = (l + h) >>> 1, x = a[m];
-      if (x > y) { i = m; h = m - 1 } else { l = m + 1 }
-    }
+  while (l <= h) {
+    var m = (l + h) >>> 1, x = a[m];
+    var p = (c!==undefined) ? c(x, y) : (x-y);
+    if (p > 0) { i = m; h = m - 1 } else { l = m + 1 }
   }
-  return i
+  return i;
 };
 
 function lt(a, l, h, y, c) {
-  l = (l === void 0) ? 0 : l | 0;
-  h = (h === void 0) ? a.length - 1 : h | 0;
+  l = (l === undefined) ? 0 : l | 0;
+  h = (h === undefined) ? a.length - 1 : h | 0;
   var i = l - 1;
-  if (c) {
-    while (l <= h) {
-      var m = (l + h) >>> 1, x = a[m];
-      if (c(x, y) < 0) { i = m; l = m + 1 } else { h = m - 1 }
-    }
-  } else {
-    while (l <= h) {
-      var m = (l + h) >>> 1, x = a[m];
-      if (x < y) { i = m; l = m + 1 } else { h = m - 1 }
-    }
+  while (l <= h) {
+    var m = (l + h) >>> 1, x = a[m];
+    var p = (c!==undefined) ? c(x, y) : (x-y);
+    if (p < 0) { i = m; l = m + 1 } else { h = m - 1 }
   }
-  return i
+  return i;
 };
 
 function le(a, l, h, y, c) {
-  l = (l === void 0) ? 0 : l | 0;
-  h = (h === void 0) ? a.length - 1 : h | 0;
+  l = (l === undefined) ? 0 : l | 0;
+  h = (h === undefined) ? a.length - 1 : h | 0;
   var i = l - 1;
-  if (c) {
-    while (l <= h) {
-      var m = (l + h) >>> 1, x = a[m];
-      if (c(x, y) <= 0) { i = m; l = m + 1 } else { h = m - 1 }
-    }
-  } else {
-    while (l <= h) {
-      var m = (l + h) >>> 1, x = a[m];
-      if (x <= y) { i = m; l = m + 1 } else { h = m - 1 }
-    }
+  while (l <= h) {
+    var m = (l + h) >>> 1, x = a[m];
+    var p = (c!==undefined) ? c(x, y) : (x-y);
+    if (p <= 0) { i = m; l = m + 1 } else { h = m - 1 }
   }
-  return i
+  return i;
 };
 
 function eq(a, l, h, y, c) {
-  l = (l === void 0) ? 0 : l | 0;
-  h = (h === void 0) ? a.length - 1 : h | 0;
-  if (c) {
-    while (l <= h) {
-      var m = (l + h) >>> 1, x = a[m];
-      var p = c(x, y);
-      if (p === 0) { return m }
-      if (p <= 0) { l = m + 1 } else { h = m - 1 }
-    }
-  } else {
-    while (l <= h) {
-      var m = (l + h) >>> 1, x = a[m];
-      if (x === y) { return m }
-      if (x <= y) { l = m + 1 } else { h = m - 1 }
-    }
+  l = (l === undefined) ? 0 : l | 0;
+  h = (h === undefined) ? a.length - 1 : h | 0;
+  while (l <= h) {
+    var m = (l + h) >>> 1, x = a[m];
+    var p = (c!==undefined) ? c(x, y) : (x-y);
+    if (p === 0) { return m }
+    if (p <= 0) { l = m + 1 } else { h = m - 1 }
   }
-  return -1
+  return -1;
 };
 
 module.exports = {
