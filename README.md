@@ -19,7 +19,7 @@ var array = [1, 2, 3, 3, 3, 5, 6, 10, 11, 13, 50, 1000, 2200]
 console.log(
   array.slice(
     bounds.ge(array, 3),
-    bounds.lt(array, 50)))
+    bounds.lt(array, 50) + 1))
 
 //Test if array contains the element 4
 console.log('indexOf(6)=', bounds.eq(array, 6))
@@ -54,7 +54,7 @@ console.log('What has more than 4 legs? Answer: ', creatures[bounds.gt(creatures
 #### Output:
 
 ```
-[ 3, 3, 3, 5, 6, 10, 11 ]
+[ 3, 3, 3, 5, 6, 10, 11, 13 ]
 indexOf(6)= 6
 indexOf(4)= -1
 successor of 13 = 50
